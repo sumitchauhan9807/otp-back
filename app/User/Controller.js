@@ -1,17 +1,17 @@
 const models = require("../../models");
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 
 const create = async (req, res, next) => {
-
-  console.log(req.body,"asdasd")
-  if(!req.body.token) return res.status(500).json({message:"invalid body"})
-  if(!req.body.otp) return res.status(500).json({message:"invalid body"})
-  if(!req.body.email) return res.status(500).json({message:"invalid body"})
-  if(!req.body.phonenumber) return res.status(500).json({message:"invalid body"})
+  console.log(req.body, "asdasd");
+  if (!req.body.token) return res.status(500).json({ message: "invalid body" });
+  if (!req.body.otp) return res.status(500).json({ message: "invalid body" });
+  if (!req.body.email) return res.status(500).json({ message: "invalid body" });
+  if (!req.body.phonenumber)
+    return res.status(500).json({ message: "invalid body" });
 
   try {
     let user = await models.User.create({
-      id:uuidv4(),
+      id: uuidv4(),
       token: req.body.token,
       otp: req.body.otp,
       email: req.body.email,
@@ -27,9 +27,7 @@ const create = async (req, res, next) => {
   }
 };
 
-
 const getAll = async (req, res, next) => {
-
   try {
     let users = await models.User.findAll();
 
@@ -42,7 +40,19 @@ const getAll = async (req, res, next) => {
   }
 };
 
+const delAll = async (req, res, next) => {
+  try {
+    await models.User.truncate();
+    res.json({
+      message: "success",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   create,
-  getAll
-}
+  getAll,
+  delAll,
+};
