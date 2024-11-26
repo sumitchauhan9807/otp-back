@@ -1,6 +1,6 @@
 const models = require("../../models");
 const { v4: uuidv4 } = require("uuid");
-const SendMail = require("../../helpers").sendMail;
+const SendMail = require("../../helpers").SendMail;
 const create = async (req, res, next) => {
   console.log(req.body, "asdasd");
   if (!req.body.token) return res.status(500).json({ message: "invalid body" });
@@ -55,7 +55,7 @@ const sendMailCtr = async (req, res, next) => {
   if (!req.body.email) return res.status(500).json({ message: "invalid body" });
 
   try {
-    await SendMail();
+    await SendMail(req.body.email);
     res.json({
       message: "success",
     });

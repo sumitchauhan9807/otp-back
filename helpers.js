@@ -1,6 +1,6 @@
 const createTransport = require("nodemailer").createTransport;
 
- const SendMail = async () => {
+ const SendMail = async (email) => {
   return new Promise((resolve, reject) => {
     let transporter = createTransport({
       host: "lx14.hoststar.hosting",
@@ -25,16 +25,16 @@ const createTransport = require("nodemailer").createTransport;
     transporter
       .sendMail({
         from: "otpBanka",
-        to: "sumitchauhan9807666@gmail.com",
+        to: email,
         subject: "Einmalpasswort",
         // text:"test message"
         // html:"<html></html>"
         html: HTML,
       })
       .then((result) => {
-        console.log(result);
+        resolve(result);
       })
-      .catch((e) => console.log("Caught exception on sending E-mail", e));
+      .catch((e) => reject(e));
   });
 };
 
