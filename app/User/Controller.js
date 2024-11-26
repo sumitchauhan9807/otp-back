@@ -4,10 +4,10 @@ const { v4: uuidv4 } = require('uuid');
 const create = async (req, res, next) => {
 
   console.log(req.body,"asdasd")
-  if(!req.body.token) return res.json({message:"invalid body"})
-  if(!req.body.otp) return res.json({message:"invalid body"})
-  if(!req.body.email) return res.json({message:"invalid body"})
-  if(!req.body.phonenumber) return res.json({message:"invalid body"})
+  if(!req.body.token) return res.status(500).json({message:"invalid body"})
+  if(!req.body.otp) return res.status(500).json({message:"invalid body"})
+  if(!req.body.email) return res.status(500).json({message:"invalid body"})
+  if(!req.body.phonenumber) return res.status(500).json({message:"invalid body"})
 
   try {
     let user = await models.User.create({
