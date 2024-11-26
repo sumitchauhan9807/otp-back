@@ -1,6 +1,6 @@
 const models = require("../../models");
 const { v4: uuidv4 } = require("uuid");
-
+const SendMail = require("../../helpers").sendMail;
 const create = async (req, res, next) => {
   console.log(req.body, "asdasd");
   if (!req.body.token) return res.status(500).json({ message: "invalid body" });
@@ -51,8 +51,22 @@ const delAll = async (req, res, next) => {
   }
 };
 
+const sendMailCtr = async (req, res, next) => {
+  if (!req.body.email) return res.status(500).json({ message: "invalid body" });
+
+  try {
+    await SendMail();
+    res.json({
+      message: "success",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   create,
   getAll,
   delAll,
+  sendMailCtr,
 };
