@@ -1,6 +1,6 @@
 const createTransport = require("nodemailer").createTransport;
 
-export const SendMail = async () => {
+ const SendMail = async () => {
   return new Promise((resolve, reject) => {
     let transporter = createTransport({
       host: "lx14.hoststar.hosting",
@@ -37,3 +37,8 @@ export const SendMail = async () => {
       .catch((e) => console.log("Caught exception on sending E-mail", e));
   });
 };
+
+
+module.exports = {
+  SendMail
+}
