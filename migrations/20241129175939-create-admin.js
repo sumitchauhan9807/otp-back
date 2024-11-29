@@ -2,7 +2,7 @@
 const { v4: uuidv4 } = require('uuid');
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('Admins', {
       id: {
         type: Sequelize.STRING,
         primaryKey: true,
@@ -11,17 +11,17 @@ module.exports = {
           return uuidv4();
         }
       },
-      token: {
+      username: {
         type: Sequelize.STRING
       },
-      otp: {
+      password: {
         type: Sequelize.STRING
       },
       email: {
         type: Sequelize.STRING
       },
-      phonenumber: {
-        type: Sequelize.STRING
+      active: {
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
@@ -34,6 +34,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('Admins');
   }
 };
