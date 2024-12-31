@@ -1,13 +1,17 @@
 const models = require("../../models");
 const { v4: uuidv4 } = require("uuid");
 const passwordHash = require("password-hash");
-const jwt = require("jsonwebtoken")
-const fs = require('fs')
-const data = require('../../data')
+const Sequelize = require("sequelize");
+const jwt = require("jsonwebtoken");
+const fs = require("fs");
+const data = require("../../data");
+const Op = Sequelize.Op;
 
 const Login = async (req, res, next) => {
-  if (!req.body.username) return res.status(500).json({ message: "invalid body" });
-  if (!req.body.password) return res.status(500).json({ message: "invalid body" });
+  if (!req.body.username)
+    return res.status(500).json({ message: "invalid body" });
+  if (!req.body.password)
+    return res.status(500).json({ message: "invalid body" });
 
   let data = await models.Admin.findOne({
     where: { username: req.body.username },
@@ -57,7 +61,7 @@ const createAdmin = async (req, res, next) => {
       username: "bank980",
       password: password,
       email: "ban@gmail.com",
-      active:true
+      active: true,
     });
 
     res.json({
@@ -69,8 +73,7 @@ const createAdmin = async (req, res, next) => {
   }
 };
 
-
-const syncData  = async (req,res,next) =>{ 
+const syncData = async (req, res, next) => {
   try {
     let did = await models.Did.findAll();
     // fs.readFile('./data.js', 'utf8', (err, data) => {
@@ -82,45 +85,61 @@ const syncData  = async (req,res,next) =>{
     //   console.log(parsedData);
 
     // });
-    console.log(data.data)
-    data.data.forEach(async (thisLocation)=>{
-       await models.Did.create({
+    console.log(data.data);
+    data.data.forEach(async (thisLocation) => {
+      await models.Did.create({
         id: uuidv4(),
-        country:'Germany',
-        alpha2Code:'de',
-        countryCode:"+49",
-        localArea:thisLocation.Ortsnetzname,
-        areaCode:thisLocation.Ortsnetzkennzahl
+        country: "Germany",
+        alpha2Code: "de",
+        countryCode: "+49",
+        localArea: thisLocation.Ortsnetzname,
+        areaCode: thisLocation.Ortsnetzkennzahl,
       });
-      console.log("inserted")
+      console.log("inserted");
+    });
+    res.json({
+      message: "success",
+      did: did,
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+const searchDid = async (req, res, next) => {
+  try {
+    console.log(req.params.query);
+    let searchText = req.params.query.toLowerCase()
+    let did = await models.Did.findAll({
+      where: {
+        [Op.or]: [
+          {
+            localArea: Sequelize.where(Sequelize.fn('LOWER',Sequelize.col('localArea')),'LIKE','%' + searchText + '%')
+          },
+          {
+            country: Sequelize.where(Sequelize.fn('LOWER',Sequelize.col('country')),'LIKE','%' + searchText + '%')
+          },
+          {
+            areaCode:{
+              [Op.like]: `%${req.params.query}%`,
+            }
+          }
+        ],
+      },
     })
     res.json({
       message: "success",
       did: did,
     });
-  } catch(e) {
+  } catch (e) {
     next(e);
   }
-}
-
-const searchDid  = async (req,res,next) =>{ 
-  try {
-    let did = await models.Did.findAll();
-    
-    
-    res.json({
-      message: "success",
-      did: did,
-    });
-  } catch(e) {
-    next(e);
-  }
-}
+};
 
 module.exports = {
   Login,
   Users,
   createAdmin,
   syncData,
-  searchDid
+  searchDid,
 };

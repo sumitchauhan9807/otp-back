@@ -37,3 +37,6 @@ app.use(function (err, req, res, next) {
 app.listen('3030',()=>{
   console.log("Listening at 3030")
 })
+
+////http://localhost:3030/admin/did
+//http://localhost:3030/api/searchdid/123
