@@ -127,9 +127,20 @@ const searchDid = async (req, res, next) => {
         ],
       },
     })
+    // let response = []
+    let toSendRes = did.reduce((accumulator,current) => {
+      if(accumulator[current.country]) {
+        accumulator[current.country].push(current)
+      }else {
+        accumulator[current.country] = []
+        accumulator[current.country].push(current)
+      }
+
+      return accumulator
+    },{})
     res.json({
       message: "success",
-      did: did,
+      did: toSendRes,
     });
   } catch (e) {
     next(e);

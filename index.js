@@ -40,3 +40,4 @@ app.listen('3030',()=>{
 
 ////http://localhost:3030/admin/did
 //http://localhost:3030/api/searchdid/123
+//https://services.global-world.us/admin/did
