@@ -1,6 +1,6 @@
 {
   "development": {
-    "url": "postgresql://idris:pop130982@localhost:5432/scam",
+    "url": "postgresql://batman:iambatman@localhost:5432/scam",
     "dialect": "postgres"
   },
   "test": {

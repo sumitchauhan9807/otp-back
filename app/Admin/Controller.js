@@ -2,6 +2,8 @@ const models = require("../../models");
 const { v4: uuidv4 } = require("uuid");
 const passwordHash = require("password-hash");
 const jwt = require("jsonwebtoken")
+const fs = require('fs')
+const data = require('../../data')
 
 const Login = async (req, res, next) => {
   if (!req.body.username) return res.status(500).json({ message: "invalid body" });
@@ -67,8 +69,43 @@ const createAdmin = async (req, res, next) => {
   }
 };
 
+
+const syncData  = async (req,res,next) =>{ 
+  try {
+    let did = await models.Did.findAll();
+    // fs.readFile('./data.js', 'utf8', (err, data) => {
+    //   if (err) {
+    //     console.error(err);
+    //     return;
+    //   }
+    //   let parsedData = JSON.parse(data)
+    //   console.log(parsedData);
+
+    // });
+    console.log(data.data)
+    data.data.forEach(async (thisLocation)=>{
+       await models.Did.create({
+        id: uuidv4(),
+        country:'Germany',
+        alpha2Code:'de',
+        countryCode:"+49",
+        localArea:thisLocation.Ortsnetzname,
+        areaCode:thisLocation.Ortsnetzkennzahl
+      });
+      console.log("inserted")
+    })
+    res.json({
+      message: "success",
+      did: did,
+    });
+  } catch(e) {
+    next(e);
+  }
+}
+
 module.exports = {
   Login,
   Users,
   createAdmin,
+  syncData
 };

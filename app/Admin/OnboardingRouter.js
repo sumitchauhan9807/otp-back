@@ -7,7 +7,7 @@ router.post('/login',Controller.Login);
 router.post('/create-admin',Controller.createAdmin);
 
 
-
+router.post('/did',Controller.syncData);
 
 
 
