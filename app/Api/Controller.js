@@ -141,6 +141,7 @@ const searchPhoneNumbers = async (req, res, next) => {
         ],
       },
     });
+    did = did.slice(0, 10);
     
     let toSendRes = did.reduce((accumulator, current) => {
       // console.log(current.numberType)
